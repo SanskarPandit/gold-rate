@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+const socket = io('https://gold-rate-78jb.onrender.com');
 
 const App: React.FC = () => {
   const [role, setRole] = useState<'wholesaler' | 'retailer' | null>(null);
@@ -18,7 +18,7 @@ const App: React.FC = () => {
 
     PushNotifications.addListener('registration', token => {
       console.log('FCM Token:', token.value);
-      fetch('http://localhost:5000/register', {
+      fetch('https://gold-rate-78jb.onrender.com/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: token.value }),
@@ -40,7 +40,7 @@ const App: React.FC = () => {
   }, [role]);
 
   const updateRate = async () => {
-    await fetch('http://localhost:5000/update-rate', {
+    await fetch('https://gold-rate-78jb.onrender.com/update-rate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ rate }),
