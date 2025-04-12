@@ -25,7 +25,10 @@ io.on('connection', socket => {
 
 app.post('/register', (req, res) => {
   const { token } = req.body;
-  if (!tokens.includes(token)) tokens.push(token);
+  if (!tokens.includes(token)) {
+    tokens.push(token);
+    console.log('✅ Token registered:', token);
+  }
   res.sendStatus(200);
 });
 

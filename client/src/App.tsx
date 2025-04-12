@@ -7,6 +7,8 @@ const App: React.FC = () => {
   const [role, setRole] = useState<'wholesaler' | 'retailer' | null>(null);
   const [rate, setRate] = useState('');
 
+   
+  
   const registerForPush = async () => {
     const permStatus = await PushNotifications.requestPermissions();
     if (permStatus.receive === 'granted') {
