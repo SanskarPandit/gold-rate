@@ -31,42 +31,30 @@ app.post('/register', (req, res) => {
 
 app.post('/update-rate', async (req, res) => {
   const { rate } = req.body;
-
-  // Emit real-time rate to all clients
+ 
   io.emit('rate-update', rate);
 
-  const message = {
+  const baseMessage = {
     notification: {
-      title: "Gold Rate Updated",
+      title: 'Gold Rate Updated',
       body: `New Rate: ₹${rate}`,
     },
-    data: {
-      extraData: "Some extra info",
-      rate: rate,
-    },
-    tokens: tokens, // array of device tokens
+    data: { rate },
   };
   
-  admin.messaging().sendMulticast(message)
-    .then((response) => {
-      console.log("Successfully sent message:", response);
-    })
-    .catch((error) => {
-      console.error("Error sending message:", error);
-    });
   try {
-    if (admin.messaging().sendMulticast) {
-      await admin.messaging().sendMulticast(message);
-    } else {
-      for (const token of tokens) {
-        await admin.messaging().send({ ...message, token });
-      }
+    for (const token of tokens) {
+      await admin.messaging().send({
+        ...baseMessage,
+        token,
+      });
     }
     res.sendStatus(200);
   } catch (err) {
-    console.error(err);
+    console.error('Push error:', err);
     res.sendStatus(500);
   }
+  
 });
 
 server.listen(5000, () => console.log('Server running on http://localhost:5000'));
