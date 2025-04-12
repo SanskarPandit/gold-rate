@@ -1,0 +1,42 @@
+# ---------------------------
+# Global
+# ---------------------------
+node_modules/
+.env
+*.log
+.DS_Store
+
+# ---------------------------
+# Client (React + Capacitor)
+# ---------------------------
+client/node_modules/
+client/dist/
+client/.next/
+client/.expo/
+client/web-build/
+client/android/.gradle/
+client/android/app/build/
+client/android/local.properties
+client/android/capacitor.settings.gradle
+client/android/gradlew
+client/android/gradlew.bat
+client/android/build/
+client/ios/
+client/www/
+client/package-lock.json
+
+# Firebase Android config
+client/android/app/google-services.json
+
+# VSCode
+client/.vscode/
+
+# ---------------------------
+# Server (Express + Firebase Admin SDK)
+# ---------------------------
+server/node_modules/
+server/serviceAccountKey.json
+server/package-lock.json
+
+# PM2 logs (if used)
+server/logs
