@@ -34,14 +34,25 @@ app.post('/update-rate', async (req, res) => {
   // Emit real-time rate to all clients
   io.emit('rate-update', rate);
 
-  // Send background push notifications
   const message = {
     notification: {
-      title: 'Gold Rate Updated',
+      title: "Gold Rate Updated",
       body: `New Rate: ₹${rate}`,
     },
-    tokens,
+    data: {
+      extraData: "Some extra info",
+      rate: rate,
+    },
+    tokens: tokens, // array of device tokens
   };
+  
+  admin.messaging().sendMulticast(message)
+    .then((response) => {
+      console.log("Successfully sent message:", response);
+    })
+    .catch((error) => {
+      console.error("Error sending message:", error);
+    });
   try {
     if (admin.messaging().sendMulticast) {
       await admin.messaging().sendMulticast(message);
