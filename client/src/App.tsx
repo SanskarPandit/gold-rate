@@ -6,7 +6,7 @@ const BACKEND_URL = 'https://gold-rate-78jb.onrender.com';
 const App: React.FC = () => {
   const [role, setRole] = useState<'wholesaler' | 'retailer' | null>(null);
   const [rate, setRate] = useState('');
-
+  const [token,setToken] = useState('');
    
   
   const registerForPush = async () => {
@@ -16,7 +16,7 @@ const App: React.FC = () => {
     }
 
     PushNotifications.addListener('registration', token => {
-      console.log('TOKEN:', token.value);
+      setToken(token.value);
       fetch(`${BACKEND_URL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -57,12 +57,14 @@ const App: React.FC = () => {
       ) : role === 'wholesaler' ? (
         <>
           <h2>Wholesaler Panel</h2>
+          <h2>Token{token}</h2>
           <input value={rate} onChange={e => setRate(e.target.value)} />
           <button onClick={sendRate}>Update Rate</button>
         </>
       ) : (
         <>
           <h2>Retailer Mode</h2>
+          <h2>Token{token}</h2>
           <p>Waiting for push notifications...</p>
         </>
       )}
