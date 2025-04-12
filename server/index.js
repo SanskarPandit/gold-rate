@@ -10,7 +10,7 @@ const io = new Server(server, {
   cors: { origin: '*' }
 });
 
-const serviceAccount = require('./serviceAccountKey.json');
+const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 
 let tokens = [];
